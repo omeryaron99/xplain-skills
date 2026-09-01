@@ -332,7 +332,6 @@ If no voice guide exists in the project, default to:
 | File | Read When |
 |------|-----------|
 | `references/framework.md` | **EVERY scripting session** — hook formula, psychology, validation |
-| `references/raw-transcripts/01-04` | Deep dive into specific Kallaway concepts |
 
 ---
 

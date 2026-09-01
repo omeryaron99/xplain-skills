@@ -99,6 +99,20 @@ def prune(dest: Path) -> None:
                 path.unlink()
 
 
+def drop_pruned_pointers(dest: Path) -> None:
+    """Removes lines that point at directories the prune pass deleted.
+
+    hook-generator and content-scripter reference their local
+    raw-transcripts/ as further reading; shipping the pointer without the
+    files would send students hunting for something that is not there.
+    """
+    for path in dest.rglob("*.md"):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        kept = [line for line in text.splitlines() if "raw-transcripts" not in line]
+        if len(kept) != text.count("\n") + 1:
+            path.write_text("\n".join(kept) + "\n", encoding="utf-8")
+
+
 def has_frontmatter(skill_md: Path) -> bool:
     text = skill_md.read_text(encoding="utf-8", errors="replace")
     if not text.startswith("---"):
@@ -142,6 +156,7 @@ def main() -> None:
         # ~/.agents/skills and would otherwise arrive broken.
         shutil.copytree(src, dest, symlinks=False)
         prune(dest)
+        drop_pruned_pointers(dest)
 
         skill_md = dest / "SKILL.md"
         if not skill_md.is_file():
