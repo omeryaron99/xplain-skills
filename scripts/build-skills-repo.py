@@ -46,6 +46,9 @@ INCLUDE = [
     "meta-ads-setup",
     "meta-ads-upload",
     # קופי ושיווק
+    "sales-page-copy",
+    "landing-page-cro",
+    "landing-page-blueprint",
     "copy-editing",
     "email-copywriting",
     "marketing-ideas",
