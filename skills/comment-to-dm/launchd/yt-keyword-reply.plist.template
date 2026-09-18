@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Runs the YouTube poller every 15 minutes.
+
+  Replace every REPLACE-ME below:
+    REPLACE-ME-LABEL  a reverse-dns label, e.g. com.yourname.yt-keyword-reply
+                      It must match the filename you save this as.
+    REPLACE-ME-HOME   your home directory, e.g. /Users/yourname
+
+  Then:
+    cp this file to ~/Library/LaunchAgents/<label>.plist
+    launchctl load ~/Library/LaunchAgents/<label>.plist
+
+  The caps below are deliberate. 5 replies per run at this interval keeps the
+  account near 20 per hour, under a hard 60 per day that yt-run enforces itself
+  from its state file. These replies are PUBLIC and carry a link, which is the
+  shape platforms act on. Do not raise them without a reason.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>REPLACE-ME-LABEL</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>REPLACE-ME-HOME/.claude/skills/comment-to-dm/scripts/keyword_dm.py</string>
+        <string>yt-run</string>
+        <string>--days</string>
+        <string>14</string>
+        <string>--posts</string>
+        <string>15</string>
+        <string>--max</string>
+        <string>5</string>
+        <string>--daily-max</string>
+        <string>60</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>900</integer>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>REPLACE-ME-HOME/.claude/skills/comment-to-dm/state/yt-poller.log</string>
+    <key>StandardErrorPath</key>
+    <string>REPLACE-ME-HOME/.claude/skills/comment-to-dm/state/yt-poller.err.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

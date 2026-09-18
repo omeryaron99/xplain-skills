@@ -1,0 +1,84 @@
+{
+  "_readme": "Copy this file to config.json in the same folder and fill it in. config.json is gitignored and is the ONLY place your account ids, keywords and copy live. Get every id from `python3 scripts/keyword_dm.py accounts` - never type one by hand.",
+
+  "profileId": "PUT-YOUR-PROFILE-ID-HERE",
+  "accounts": {
+    "instagram": "PUT-YOUR-INSTAGRAM-ACCOUNT-ID-HERE",
+    "youtube": "PUT-YOUR-YOUTUBE-ACCOUNT-ID-HERE"
+  },
+  "instagram_profile_url": "https://www.instagram.com/YOUR-HANDLE/",
+
+  "_rules_note": "One object per campaign. `name` is what you pass to ig-create and what the audit matches against the live rule, so keep it stable.",
+  "rules": [
+    {
+      "name": "my-campaign",
+
+      "_platforms_note": "Instagram uses Zernio's native engine and answers by DM. YouTube has no DM system at all, so delivery there is a PUBLIC reply and it is polled by yt-run. Only list youtube once a video of yours actually exists, because the poller scans every comment on the whole channel.",
+      "platforms": ["instagram"],
+
+      "_trigger_note": "'comment' or 'story_reply'. A story reply has no public surface, so comment_reply and youtube_reply are ignored for that one.",
+      "trigger": "comment",
+
+      "keywords": ["PUT-YOUR-KEYWORD-HERE"],
+
+      "_match_note": "'contains' is substring, which Hebrew usually needs because prefixes attach to the word. 'word' is whole-word. 'exact' means the comment IS the keyword. A keyword of 4 characters or fewer must not be 'contains', or it fires inside unrelated words and DMs people who never asked. The audit fails on that.",
+      "match": "word",
+
+      "_copy_note": "Message 1 GIVES, it does not ask. The button exists because DMs from people who do not follow you land in Message Requests, where quick-reply chips do not render and real buttons do. Frame it as claiming the thing, never as proving you are not a bot.",
+      "dm_message": "יש לי את זה בשבילך 🙌\nהמדריך המלא, בדיוק כמו שהבטחתי.",
+      "dm_message_variations": [
+        "הנה זה 🙌\nכל התהליך, שלב אחרי שלב.",
+        "מוכן בשבילך 🔥\nהכל בפנים, אפשר להתחיל היום."
+      ],
+
+      "_button_note": "Title is capped at 20 UTF-16 units by Meta, and an emoji costs 2. It must not be a substring of any other live campaign's button title and none may be a substring of it, or one tap fires two funnels and the person lands in the wrong one.",
+      "buttons": [
+        { "type": "postback", "title": "👈 קח את המדריך 👉", "payload": "my_campaign_want_guide" }
+      ],
+
+      "comment_reply": "שלחתי לך בפרטי 📩",
+      "comment_reply_variations": ["אצלך ב-DM 👀", "שלחתי, תבדוק בהודעות 🙌"],
+
+      "_youtube_note": "Public. Put the bare URL in the text. Rotate the variations so a run of identical replies does not read as spam.",
+      "youtube_reply": "הנה המדריך 👇\nFILL-IN-LINK",
+      "youtube_reply_variations": [
+        "כמו שהבטחתי 🙌\nFILL-IN-LINK"
+      ],
+
+      "_link_tracking_note": "Leave this off. A redirect wrapper around a link is a spam heuristic inside DMs.",
+      "link_tracking": false
+    }
+  ],
+
+  "_flows_note": "Steps 2 and 3 of the funnel: the button tap, the follow gate, then the link. Step 1 is the rule above. These are two different Zernio features, and the workflow builder has no comment trigger at all, which is the single thing that confuses everyone the first time.",
+  "flows": {
+    "my-campaign": {
+      "name": "my-campaign → the guide (steps 2-3)",
+      "description": "Picks up after the first DM: follow gate → link.",
+
+      "_tap_note": "This must match THIS campaign's button title and nothing else. A tap arrives as an ordinary inbound message carrying the button's title, and every active workflow trigger tests it.",
+      "tap_keywords": ["קח את המדריך"],
+
+      "confirm_match": "עקבתי",
+
+      "_gate_note": "Giving explicit permission to unfollow costs nothing. Anyone who would have resented the gate was never going to stay, and it turns a toll into an offer.",
+      "gate": {
+        "message": "רק דבר אחד לפני 🙌\nאני שולח את זה לעוקבים בלבד. כבר עוקב? פשוט תלחץ \"עקבתי\" ואני שולח עכשיו.\n(ואם זה לא יעזור לך - תוריד עוקב בכיף 🙂)",
+        "follow_button": "לעקוב אחריי",
+        "confirm_button": "עקבתי! שלח הכל"
+      },
+
+      "_link_note": "The last message should open a conversation, not just hand over a URL. Replies are the cheapest signal the platform reads as a real relationship. FILL-IN-LINK is a guard: the script refuses to create a flow that still contains it.",
+      "link": {
+        "message": "יאללה, זה שלך 👇\nנתקעת או שיש לך שאלה? תכתוב לי כאן, אני עונה ❤️",
+        "card": {
+          "title": "PUT-YOUR-TITLE-HERE",
+          "subtitle": "PUT-YOUR-SUBTITLE-HERE",
+          "imageUrl": null,
+          "buttonTitle": "לקבלת המדריך",
+          "url": "FILL-IN-LINK"
+        }
+      }
+    }
+  }
+}

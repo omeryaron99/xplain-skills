@@ -1,0 +1,10 @@
+# your ids, your keywords, your copy — never leaves your machine
+config.json
+config.json.bak*
+# your API key
+.env
+# what the YouTube poller has already answered, plus its logs
+state/
+*.log
+__pycache__/
+*.pyc
