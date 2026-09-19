@@ -12,23 +12,38 @@ YouTube has no DM system at all; TikTok is not possible.
 Everything runs on the Zernio API. No monthly ManyChat bill, and no scraping:
 these are the official endpoints, driven by your own key.
 
-## Setup, once
+## First run: interview them, do not hand them a manual
 
-1. **Get a Zernio account** with the Instagram account connected. The Instagram
+**If `config.json` does not exist yet, this is a setup, not a support question.**
+Read `setup/INTERVIEW.md` and run it: it is a question-by-question script that
+takes someone from a fresh unzip to a live, tested campaign, in their language,
+and it carries the safety gates that keep an account out of trouble. Do not
+paraphrase the setup from this file instead. The interview refuses unsafe
+keywords, scopes every rule to its post, and makes them test before you call it
+done.
+
+Everything below is the reference for using the skill afterwards, and for
+whatever they ask you to change next.
+
+## Setup, by hand
+
+The interview does all of this. It is here for when something breaks.
+
+1. **A Zernio account** with the Instagram account connected. The Instagram
    account has to be a Business or Creator account. A personal account exposes
    neither comments nor messages, and nothing here can work around that.
-2. **Make an API key** in Zernio's settings.
-3. **Put it next to this skill**, not in the code:
+2. **An API key** from Zernio's settings.
+3. **The key lives next to the skill**, never in the code:
 
    ```bash
-   echo 'LATE_API_KEY=your_key_here' > ~/.claude/skills/comment-to-dm/.env
+   printf 'LATE_API_KEY=%s\n' 'the-key' > ~/.claude/skills/comment-to-dm/.env
    chmod 600 ~/.claude/skills/comment-to-dm/.env
    ```
 
    A key on an external or removable drive works when you run a command by hand
    and fails silently on every scheduled run, because macOS blocks background
    agents from those volumes. Keep it here.
-4. **Copy the config and fill it in:**
+4. **The config, copied and filled in:**
 
    ```bash
    cd ~/.claude/skills/comment-to-dm
