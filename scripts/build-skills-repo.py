@@ -56,14 +56,17 @@ INCLUDE = [
     "my-business",
     "install-rtl-extension",
     "comment-to-dm",          # hand-maintained here, see HAND_MAINTAINED below
+    "ig-competitor-research", # hand-maintained here, see HAND_MAINTAINED below
 ]
 
 # Skills authored directly in this repo rather than copied from ~/.claude/skills.
 # comment-to-dm is the generic, credential-free rewrite of a private skill: its
 # live twin carries real account ids, keywords and DM copy, so it must never be
 # packed from the machine. The copy loop skips these and the stray sweep keeps
-# them, but the sanitization scan still reads them.
-HAND_MAINTAINED = {"comment-to-dm"}
+# them, but the sanitization scan still reads them. ig-competitor-research is the
+# same story: the live twin reads a private competitor list and a token file on
+# an external drive, so this copy takes both from files the user creates.
+HAND_MAINTAINED = {"comment-to-dm", "ig-competitor-research"}
 
 # Never ship: personal state, credentials, caches, junk. raw-transcripts/
 # holds Omer's own footage transcripts plus a third-party hook database,

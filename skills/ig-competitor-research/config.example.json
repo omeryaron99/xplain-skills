@@ -1,0 +1,21 @@
+{
+  "_readme": "Copy this file to config.json in the same folder and fill it in. config.json is gitignored and is the only place your profile lives. Your Apify token does NOT go here, it goes in .env.",
+
+  "_creator_note": "One or two sentences. Every adapted hook in the report is written for this person, so be specific: what you teach, who watches you, how you talk.",
+  "creator": "PUT-ONE-LINE-ABOUT-YOU-HERE",
+
+  "_language_note": "The language the adapted hooks and video ideas are written in.",
+  "language": "Hebrew",
+
+  "_output_note": "Where each run's folder and report.html are written. Keep it on the computer's own disk.",
+  "output_dir": "~/ig-research",
+
+  "_ranking_note": "Only posts from the last `days` count. Each creator gives at most `per_creator` picks, the report keeps the best `top`. rank_by: likes, breakout, views or comments.",
+  "days": 7,
+  "per_creator": 3,
+  "top": 15,
+  "rank_by": "likes",
+
+  "_cookies_note": "Optional. A browser name (chrome, safari, firefox) lets yt-dlp use your Instagram login when Apify's media link has expired. Leave empty to skip that fallback.",
+  "cookies_browser": ""
+}

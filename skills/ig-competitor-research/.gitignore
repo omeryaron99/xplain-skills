@@ -1,0 +1,8 @@
+# your Apify token
+.env
+# your profile and your competitor list, never leave your machine
+config.json
+competitors.md
+__pycache__/
+*.pyc
+.DS_Store
